@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D _headHit;
     private RaycastHit2D _edgeDetectionLeft;
     private RaycastHit2D _edgeDetectionRight;
+    private RaycastHit2D _bodyDetectionLeft;
+    private RaycastHit2D _bodyDetectionRight;
     private bool _isGrounded;
     private bool _bumpedHead;
 
@@ -62,23 +64,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.L)) { Time.timeScale = 0.2f; } else { Time.timeScale = 1f; }
+
         rf_JumpChecks();
         rf_CountTimers();
 
-        // camera adjustment if we are falling past a certain speed threshold
-        if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)
+        if (CameraManager.instance != null )
         {
-            CameraManager.instance.rf_LerpYDamping(true);
-        }
+            // camera adjustment if we are falling past a certain speed threshold
+            if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)
+            {
+                CameraManager.instance.rf_LerpYDamping(true);
+            }
 
-        // camera adjustment if we are standing still or moving up
-        if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
-        {
-            // reset so it can be called again
-            CameraManager.instance.LerpedFromPlayerFalling = false;
+            // camera adjustment if we are standing still or moving up
+            if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
+            {
+                // reset so it can be called again
+                CameraManager.instance.LerpedFromPlayerFalling = false;
 
-            CameraManager.instance.rf_LerpYDamping(false);
-        }
+                CameraManager.instance.rf_LerpYDamping(false);
+            }
+        } else { Debug.LogWarning("Camera Manager is Null");  }
     }
 
     private void FixedUpdate()
@@ -392,6 +399,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 boxCastOrigin = new Vector2(_bodyCollider.bounds.center.x, _bodyCollider.bounds.max.y);
         Vector2 boxCastSize = new Vector2(_bodyCollider.bounds.size.x * moveStats.HeadWidth * 0.8f, moveStats.HeadDetectionRayLength);
 
+        // Body cast hitboxes to prevent edge detection happening against straight walls
+        Vector2 bodyCastOriginLeft = new Vector2(_bodyCollider.bounds.min.x, _bodyCollider.bounds.max.y * 0.8f);
+        Vector2 bodyCastOriginRight = new Vector2(_bodyCollider.bounds.max.x, _bodyCollider.bounds.max.y * 0.8f);
+
+
         // Edge detection hitboxes (10% of the head width on each side)
         Vector2 edgeCastSize = new Vector2(_bodyCollider.bounds.size.x * moveStats.HeadWidth * 0.1f, moveStats.HeadDetectionRayLength);
 
@@ -404,11 +416,14 @@ public class PlayerMovement : MonoBehaviour
         _edgeDetectionLeft = Physics2D.BoxCast(edgeCastOriginLeft, edgeCastSize, 0f, Vector2.up, moveStats.HeadDetectionRayLength, moveStats.GroundLayer);
         _edgeDetectionRight = Physics2D.BoxCast(edgeCastOriginRight, edgeCastSize, 0f, Vector2.up, moveStats.HeadDetectionRayLength, moveStats.GroundLayer);
 
+        _bodyDetectionLeft = Physics2D.BoxCast(bodyCastOriginLeft, edgeCastSize, 0f, Vector2.up, moveStats.HeadDetectionRayLength, moveStats.GroundLayer);
+        _bodyDetectionRight = Physics2D.BoxCast(bodyCastOriginRight, edgeCastSize, 0f, Vector2.up, moveStats.HeadDetectionRayLength, moveStats.GroundLayer);
+
         // Perform head collision box cast
         _headHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.up, moveStats.HeadDetectionRayLength, moveStats.GroundLayer);
 
         // Edge correction logic
-        if ((_edgeDetectionLeft || _edgeDetectionRight) && !_headHit && !_isGrounded)
+        if (((_edgeDetectionLeft && !_bodyDetectionLeft) || (_edgeDetectionRight && !_bodyDetectionRight) && !_headHit && !_isGrounded))
         {
             // Shift the player to the side to avoid the edge collision
             rf_EdgeCorrection();
@@ -425,6 +440,8 @@ public class PlayerMovement : MonoBehaviour
             // Draw edge detection box casts
             Debug.DrawRay(edgeCastOriginLeft, Vector2.up * moveStats.HeadDetectionRayLength, Color.yellow);
             Debug.DrawRay(edgeCastOriginRight, Vector2.up * moveStats.HeadDetectionRayLength, Color.yellow);
+            Debug.DrawRay(bodyCastOriginLeft, Vector2.up * moveStats.HeadDetectionRayLength, Color.yellow);
+            Debug.DrawRay(bodyCastOriginRight, Vector2.up * moveStats.HeadDetectionRayLength, Color.yellow);
 
             // Draw head collision box cast
             Debug.DrawRay(boxCastOrigin, Vector2.up * moveStats.HeadDetectionRayLength, Color.red);
@@ -463,47 +480,68 @@ public class PlayerMovement : MonoBehaviour
     /// MAYBE TWEAK VALUES UNTIL IT WORKS, I'M NOT PROPER SURE IF THE CODE IS RUNNING AS INTENDED.
     private void rf_LedgeAssist()
     {
+
         // Check if the player is in the air and moving upward (mid-jump)
         if (!_isGrounded && VerticalVelocity > -0.1f)
         {
+            Debug.Log("MADE IT THROUGH IF STATEMENT");
             // Calculate the origin for the ledge detection raycast
             Vector2 rayOrigin = new Vector2(_feetCollider.bounds.center.x, _feetCollider.bounds.max.y);
 
             // Perform a raycast upward to detect platforms within the vertical threshold
-            RaycastHit2D ledgeHit = Physics2D.Raycast(rayOrigin, Vector2.up, moveStats.LedgeSnapVerticalThreshold, moveStats.GroundLayer);
+            RaycastHit2D ledgeHitRight = Physics2D.Raycast(rayOrigin, Vector2.right, moveStats.LedgeSnapHorizontalRange, moveStats.GroundLayer);
+            RaycastHit2D ledgeHitLeft = Physics2D.Raycast(rayOrigin, Vector2.left, moveStats.LedgeSnapHorizontalRange, moveStats.GroundLayer);
+            Debug.DrawRay(rayOrigin, Vector2.right * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
+            Debug.DrawRay(rayOrigin, Vector2.left * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
 
-            // If a platform is detected within the vertical threshold
-            if (ledgeHit.collider != null)
+
+            // If a platform is detected within the vertical threshold 
+            if (ledgeHitRight.collider != null)
             {
                 // Check if the player is horizontally aligned with the platform
-                float platformLeftEdge = ledgeHit.collider.bounds.min.x;
-                float platformRightEdge = ledgeHit.collider.bounds.max.x;
-                float playerLeftEdge = _bodyCollider.bounds.min.x;
-                float playerRightEdge = _bodyCollider.bounds.max.x;
+                float platformHeight = ledgeHitRight.collider.bounds.max.y;
+                float playerFeetHeight = _feetCollider.bounds.min.y;
 
-                // Check if the player is within the horizontal range of the platform
-                if (playerRightEdge > platformLeftEdge - moveStats.LedgeSnapHorizontalRange && playerLeftEdge < platformRightEdge + moveStats.LedgeSnapHorizontalRange)
+
+                // Check if the player is within the vertical threshold of the platform
+                if (playerFeetHeight > platformHeight - moveStats.LedgeSnapVerticalThreshold)
                 {
                     // Snap the player to the platform
-                    float snapYPosition = ledgeHit.collider.bounds.min.y + moveStats.LedgeSnapVerticalOffset;
-                    transform.position = new Vector2(transform.position.x, snapYPosition);
+                    float snapYPosition = platformHeight - playerFeetHeight;
+
+                    transform.position = new Vector2(transform.position.x, transform.position.y + snapYPosition);
+
 
                     // Reset vertical velocity and set grounded state
-                    VerticalVelocity = 0f;
-                    _isGrounded = true;
-                    _isJumping = false;
-                    _isFalling = false;
+                    //VerticalVelocity = 0f;
+                    //_isGrounded = true;
+                    //_isJumping = false;
+                    //_isFalling = false;
                 }
-                #region Debug Visualisation
+            }
+            // left side
+            if (ledgeHitLeft.collider != null)
+            {
+                // Check if the player is horizontally aligned with the platform
+                float platformHeight = ledgeHitLeft.collider.bounds.max.y;
+                float playerFeetHeight = _feetCollider.bounds.min.y;
 
-                print("AAA");
-                // Draw the ledge detection raycast
-                Debug.DrawRay(rayOrigin, Vector2.up * moveStats.LedgeSnapVerticalThreshold, Color.green);
 
-                // Draw the horizontal range
-                Debug.DrawLine(new Vector2(platformLeftEdge - moveStats.LedgeSnapHorizontalRange, rayOrigin.y), new Vector2(platformRightEdge + moveStats.LedgeSnapHorizontalRange, rayOrigin.y), Color.cyan);
+                // Check if the player is within the vertical threshold of the platform
+                if (playerFeetHeight > platformHeight - moveStats.LedgeSnapVerticalThreshold)
+                {
+                    // Snap the player to the platform
+                    float snapYPosition = platformHeight - playerFeetHeight;
 
-                #endregion
+                    transform.position = new Vector2(transform.position.x, transform.position.y + snapYPosition);
+
+
+                    // Reset vertical velocity and set grounded state
+                    //VerticalVelocity = 0f;
+                    //_isGrounded = true;
+                    //_isJumping = false;
+                    //_isFalling = false;
+                }
             }
         }
     }

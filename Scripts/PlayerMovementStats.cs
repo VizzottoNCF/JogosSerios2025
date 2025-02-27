@@ -8,6 +8,7 @@ public class PlayerMovementStats : ScriptableObject
     [Header("Debug")]
     public bool DebugShowIsGroundedBox = false;
     public bool DebugShowHeadBumpBox = false;
+    public bool SlowDownTime = true;
 
     [Header("Walk")]
     [Range(1f, 100f)] public float maxWalkSpeed = 12.5f;

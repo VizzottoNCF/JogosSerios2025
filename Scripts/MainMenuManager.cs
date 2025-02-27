@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Scenes to Load")]
     [SerializeField] private string _persistentGameplay = "PersistentGameplay";
-    [SerializeField] private string _levelScene = "Level_0";
+    [SerializeField] private string _levelScene = "TEST_SCENE";
 
     private List<AsyncOperation> _scenesToLoad = new List<AsyncOperation>();
 
