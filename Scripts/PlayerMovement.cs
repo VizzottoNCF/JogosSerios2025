@@ -475,16 +475,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// TODO: FIX LEDGE ASSIST, NOT WORKING AS INTENDED.
-    /// 
-    /// MAYBE TWEAK VALUES UNTIL IT WORKS, I'M NOT PROPER SURE IF THE CODE IS RUNNING AS INTENDED.
     private void rf_LedgeAssist()
     {
 
         // Check if the player is in the air and moving upward (mid-jump)
         if (!_isGrounded && VerticalVelocity > -0.1f)
         {
-            Debug.Log("MADE IT THROUGH IF STATEMENT");
             // Calculate the origin for the ledge detection raycast
             Vector2 rayOrigin = new Vector2(_feetCollider.bounds.center.x, _feetCollider.bounds.max.y);
 
@@ -513,10 +509,10 @@ public class PlayerMovement : MonoBehaviour
 
 
                     // Reset vertical velocity and set grounded state
-                    //VerticalVelocity = 0f;
-                    //_isGrounded = true;
-                    //_isJumping = false;
-                    //_isFalling = false;
+                    VerticalVelocity = 0f;
+                    _isGrounded = true;
+                    _isJumping = false;
+                    _isFalling = false;
                 }
             }
             // left side

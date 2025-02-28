@@ -12,8 +12,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject[] _objectsToHide;
 
     [Header("Scenes to Load")]
-    [SerializeField] private string _persistentGameplay = "PersistentGameplay";
-    [SerializeField] private string _levelScene = "TEST_SCENE";
+    [SerializeField] private SceneField _persistentGameplay;
+    [SerializeField] private SceneField _levelScene;
 
     private List<AsyncOperation> _scenesToLoad = new List<AsyncOperation>();
 

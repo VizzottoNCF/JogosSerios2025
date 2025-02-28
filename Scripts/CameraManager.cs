@@ -24,6 +24,7 @@ public class CameraManager : MonoBehaviour
 
     private CinemachineCamera _currentCamera;
     private CinemachinePositionComposer _PositionComposer;
+    private CinemachineConfiner2D _Confiner2D;
 
     [Header("Controls for Camera Y Offset lerping")]
     public bool IsLerpingYOffset { get; private set; }
@@ -46,8 +47,9 @@ public class CameraManager : MonoBehaviour
                 // set the current active camera
                 _currentCamera = _allVirtualCameras[i];
 
-                // set the position composer
+                // set the position composer and confiner 2d
                 _PositionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
+                _Confiner2D = _currentCamera.GetComponent<CinemachineConfiner2D>();
             }
         }
 
@@ -58,10 +60,21 @@ public class CameraManager : MonoBehaviour
         _startingTrackedObjectOffset = _PositionComposer.TargetOffset;
     }
 
-    private void Start()
-    {
-        
-    }
+
+    ///TODO: METHOD TO CHANGE CAMERA BOUNDARIES ONCE YOU GET INTO A NEW SCENE 
+    ///
+    //private void Start()
+    //{
+    //    _Confiner2D.BoundingShape2D = GameObject.FindWithTag("CameraBoundary").GetComponent<CompositeCollider2D>();
+    //}
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("CameraBoundary"))
+    //    {
+    //        _Confiner2D.BoundingShape2D = collision.GetComponent<CompositeCollider2D>();
+    //    }
+    //}
 
 
     /// <summary>
@@ -198,8 +211,9 @@ public class CameraManager : MonoBehaviour
             // set the new camera as the current camera
             _currentCamera = cameraFromRight;
 
-            // update position composer variable
+            // update position composer variable and confiner 2d
             _PositionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
+            _Confiner2D = _currentCamera.GetComponent<CinemachineConfiner2D>();
         }
         
         // if current camera is on the right and trigger exit direcion was on the left
@@ -214,8 +228,9 @@ public class CameraManager : MonoBehaviour
             // set the new camera as the current camera
             _currentCamera = cameraFromLeft;
 
-            // update position composer variable
+            // update position composer variable and confiner 2d
             _PositionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
+            _Confiner2D = _currentCamera.GetComponent<CinemachineConfiner2D>();
         }
     }
     #endregion

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8759374182454917745}
+  - component: {fileID: 2020602378535296580}
   m_Layer: 0
   m_Name: CameraControlTrigger
   m_TagString: Untagged
@@ -31,3 +32,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020602378535296580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7173110351652854171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d9d2a32432a8d49962ad9ef717375a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customInspectorObjects:
+    swapCameras: 0
+    panCameraOnContact: 0
+    CameraOnLeft: {fileID: 0}
+    CameraOnRight: {fileID: 0}
+    panDirection: 0
+    panDistance: 3
+    panTime: 0.35
