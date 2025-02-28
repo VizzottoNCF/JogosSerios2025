@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &372946716 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7086310064414646366, guid: fb6bec7781d231d4181c9d447434d236, type: 3}
+  m_PrefabInstance: {fileID: 7964324355451631697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +231,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.8645563
+  orthographic size: 5.79
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -251,7 +256,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.075383, y: -0.3562688, z: -5.6206837}
+  m_LocalPosition: {x: -1.075383, y: 1.6437312, z: -5.6206837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -583,7 +588,7 @@ Transform:
   m_GameObject: {fileID: 1244154220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.075383, y: -0.3562688, z: -5.6206837}
+  m_LocalPosition: {x: -1.075383, y: 1.6437312, z: -5.6206837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -613,7 +618,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 1.5, y: 0, z: 0}
+  TargetOffset: {x: 1.5, y: 2, z: 0}
   Damping: {x: 1, y: 2, z: 0}
   Lookahead:
     Enabled: 0
@@ -645,7 +650,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 5.8645563
+    OrthographicSize: 5.79
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -683,6 +688,11 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!1 &1422133537 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 582450336870580919, guid: f266769607fed42469f5125519108772, type: 3}
+  m_PrefabInstance: {fileID: 5667881512478529183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1422133539 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6395091613734712790, guid: f266769607fed42469f5125519108772, type: 3}
@@ -937,6 +947,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 337832405892709651, guid: f266769607fed42469f5125519108772, type: 3}
+      propertyPath: _playerTransform
+      value: 
+      objectReference: {fileID: 372946716}
     - target: {fileID: 582450336870580919, guid: f266769607fed42469f5125519108772, type: 3}
       propertyPath: m_Name
       value: CameraFollowObject
@@ -1038,6 +1052,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PLAYER
       objectReference: {fileID: 0}
+    - target: {fileID: 7465228802666031542, guid: fb6bec7781d231d4181c9d447434d236, type: 3}
+      propertyPath: _cameraFollowGO
+      value: 
+      objectReference: {fileID: 1422133537}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -29,6 +29,7 @@ public class CameraManager : MonoBehaviour
     [Header("Controls for Camera Y Offset lerping")]
     public bool IsLerpingYOffset { get; private set; }
     private Coroutine _lerpYOffsetCoroutine;
+    private Coroutine _lerpYOffsetCoroutineBack;
     [SerializeField] private float _YOffsetTime = 0.35f;
 
 
@@ -40,7 +41,7 @@ public class CameraManager : MonoBehaviour
         // create singleton instance
         if (instance == null) { instance = this; }
 
-        for (int i = 0;  i < _allVirtualCameras.Length; i++)
+        for (int i = 0; i < _allVirtualCameras.Length; i++)
         {
             if (_allVirtualCameras[i].enabled)
             {
@@ -81,17 +82,53 @@ public class CameraManager : MonoBehaviour
     /// TODO: OFFSET LERP FOR BETTER VISABILITY
     /// </summary>
     #region Lerp Y Offset
-    public void rf_LerpYOffset(bool lerpingUP)
+    public void rf_LerpYOffset(float variation)
     {
-        _lerpYOffsetCoroutine = StartCoroutine(rIE_LerpYOffset(lerpingUP));
+        _lerpYOffsetCoroutine = StartCoroutine(rIE_LerpYOffset(variation));
     }
 
-    private IEnumerator rIE_LerpYOffset(bool lerpingUP)
+    private IEnumerator rIE_LerpYOffset(float variation)
     {
+        IsLerpingYOffset = true;
+
+        // grab stating offset amount
         float startOffsetAmount = _PositionComposer.TargetOffset.y;
         float endOffsetAmount;
-        if (lerpingUP)
-        yield return null;
+            endOffsetAmount = _PositionComposer.TargetOffset.y + variation;
+            float elapsedTime = 0f;
+            while (elapsedTime < _YOffsetTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                float lerpedOffsetAmount = Mathf.Lerp(startOffsetAmount, endOffsetAmount, (elapsedTime / _YOffsetTime));
+                _PositionComposer.TargetOffset.y = lerpedOffsetAmount;
+
+                yield return null;
+            }
+    }
+
+    public void rf_LerpYOffsetToNormal()
+    {
+        _lerpYOffsetCoroutineBack = StartCoroutine(rIE_LerpYOffsetToNormal());
+    }
+    private IEnumerator rIE_LerpYOffsetToNormal()
+    {
+        // grab stating offset amount
+        float startOffsetAmount = _PositionComposer.TargetOffset.y;
+        float endOffsetAmount = 2f;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < _YOffsetTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float lerpedOffsetAmount = Mathf.Lerp(startOffsetAmount, endOffsetAmount, (elapsedTime / _YOffsetTime));
+            _PositionComposer.TargetOffset.y = lerpedOffsetAmount;
+
+            yield return null;
+        }
+
+        IsLerpingYOffset = false;
     }
 
     #endregion
@@ -123,11 +160,11 @@ public class CameraManager : MonoBehaviour
 
         // lerp the pan amount
         float elapsedTime = 0f;
-        while (elapsedTime < _fallYPanTime) 
+        while (elapsedTime < _fallYPanTime)
         {
             elapsedTime += Time.deltaTime;
 
-            float lerpedPanAmount = Mathf.Lerp(startDampAmount, endDampAmount, (elapsedTime/_fallYPanTime));
+            float lerpedPanAmount = Mathf.Lerp(startDampAmount, endDampAmount, (elapsedTime / _fallYPanTime));
             _PositionComposer.Damping.y = lerpedPanAmount;
 
             yield return null;
@@ -197,10 +234,10 @@ public class CameraManager : MonoBehaviour
 
     #region Swap Cameras
 
-    public void rf_SwapCamera(CinemachineCamera cameraFromLeft, CinemachineCamera cameraFromRight, Vector2 triggerExitDirection) 
+    public void rf_SwapCamera(CinemachineCamera cameraFromLeft, CinemachineCamera cameraFromRight, Vector2 triggerExitDirection)
     {
         // if current camera is on the left and trigger exit direcion was on the right
-        if (_currentCamera == cameraFromLeft && triggerExitDirection.x > 0f) 
+        if (_currentCamera == cameraFromLeft && triggerExitDirection.x > 0f)
         {
             // activate the new camera
             cameraFromRight.enabled = true;
@@ -215,9 +252,9 @@ public class CameraManager : MonoBehaviour
             _PositionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
             _Confiner2D = _currentCamera.GetComponent<CinemachineConfiner2D>();
         }
-        
+
         // if current camera is on the right and trigger exit direcion was on the left
-        if (_currentCamera == cameraFromLeft && triggerExitDirection.x < 0f) 
+        if (_currentCamera == cameraFromLeft && triggerExitDirection.x < 0f)
         {
             // activate the new camera
             cameraFromLeft.enabled = true;

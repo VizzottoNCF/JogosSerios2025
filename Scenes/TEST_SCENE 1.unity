@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 655824252}
   m_Layer: 0
   m_Name: CAMERA_BOUNDARY
-  m_TagString: Untagged
+  m_TagString: CameraBoundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

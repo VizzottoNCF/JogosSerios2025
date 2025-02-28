@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject _cameraFollowGO;
     private CameraFollowObject _cameraFollowObject;
     private float _fallSpeedYDampingChangeThreshold;
+    private float _upHeldTimer = 0f;
+    private float _downHeldTimer = 0f;
 
     #endregion
     private void Start()
@@ -66,24 +68,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.L)) { Time.timeScale = 0.2f; } else { Time.timeScale = 1f; }
 
+        if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S)) { _upHeldTimer += Time.deltaTime; } else { _upHeldTimer = 0f; }
+        if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W)) { _downHeldTimer += Time.deltaTime; } else { _downHeldTimer = 0f; }
+
+        if (_upHeldTimer > 0.45f && !CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffset(2f); }
+        if (_downHeldTimer > 0.45f && !CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffset(-3f); }
+
+        if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.W)) && CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffsetToNormal(); }
+
         rf_JumpChecks();
         rf_CountTimers();
 
         if (CameraManager.instance != null )
         {
             // camera adjustment if we are falling past a certain speed threshold
-            if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)
+            if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)// && !CameraManager.instance.IsLerpingYOffset)
             {
                 CameraManager.instance.rf_LerpYDamping(true);
+                //CameraManager.instance.rf_LerpYOffset(-1f);
             }
 
             // camera adjustment if we are standing still or moving up
-            if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
+            if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)// && CameraManager.instance.IsLerpingYOffset)
             {
                 // reset so it can be called again
                 CameraManager.instance.LerpedFromPlayerFalling = false;
 
                 CameraManager.instance.rf_LerpYDamping(false);
+                //CameraManager.instance.rf_LerpYOffsetToNormal();
             }
         } else { Debug.LogWarning("Camera Manager is Null");  }
     }
