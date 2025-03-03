@@ -255,8 +255,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.075383, y: 1.6437312, z: -5.6206837}
+  m_LocalRotation: {x: 0.02800887, y: 0, z: 0, w: 0.9996077}
+  m_LocalPosition: {x: -2.826981, y: 2.0093727, z: -5.6158924}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -571,6 +571,7 @@ GameObject:
   - component: {fileID: 1244154221}
   - component: {fileID: 1244154224}
   - component: {fileID: 1244154223}
+  - component: {fileID: 1244154226}
   - component: {fileID: 1244154225}
   m_Layer: 0
   m_Name: CenterPlayerFollowCAM(OpenRooms)
@@ -587,8 +588,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244154220}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.075383, y: 1.6437312, z: -5.6206837}
+  m_LocalRotation: {x: 0.02800887, y: 0, z: 0, w: 0.9996077}
+  m_LocalPosition: {x: -2.826981, y: 2.0093727, z: -5.6158924}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -609,7 +610,7 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0.06835449, y: -0.016806722}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -688,6 +689,40 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!114 &1244154226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244154220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReferenceFrame: 0
+  RecenterTarget: 0
+  PanAxis:
+    Value: 0
+    Center: 0
+    Range: {x: -180, y: 180}
+    Wrap: 1
+    Recentering:
+      Enabled: 0
+      Wait: 1
+      Time: 2
+    Restrictions: 0
+  TiltAxis:
+    Value: 3.21
+    Center: 0
+    Range: {x: -70, y: 70}
+    Wrap: 0
+    Recentering:
+      Enabled: 0
+      Wait: 1
+      Time: 2
+    Restrictions: 0
 --- !u!1 &1422133537 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 582450336870580919, guid: f266769607fed42469f5125519108772, type: 3}

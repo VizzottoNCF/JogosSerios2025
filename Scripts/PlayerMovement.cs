@@ -82,20 +82,20 @@ public class PlayerMovement : MonoBehaviour
         if (CameraManager.instance != null )
         {
             // camera adjustment if we are falling past a certain speed threshold
-            if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)// && !CameraManager.instance.IsLerpingYOffset)
+            if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling && !CameraManager.instance.IsLerpingYOffset)
             {
                 CameraManager.instance.rf_LerpYDamping(true);
-                //CameraManager.instance.rf_LerpYOffset(-1f);
+                CameraManager.instance.rf_LerpYOffset(-1f);
             }
 
             // camera adjustment if we are standing still or moving up
-            if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)// && CameraManager.instance.IsLerpingYOffset)
+            if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling && CameraManager.instance.IsLerpingYOffset)
             {
                 // reset so it can be called again
                 CameraManager.instance.LerpedFromPlayerFalling = false;
 
                 CameraManager.instance.rf_LerpYDamping(false);
-                //CameraManager.instance.rf_LerpYOffsetToNormal();
+                CameraManager.instance.rf_LerpYOffsetToNormal();
             }
         } else { Debug.LogWarning("Camera Manager is Null");  }
     }
