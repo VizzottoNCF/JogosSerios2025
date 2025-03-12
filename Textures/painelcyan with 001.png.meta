@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 560b062eeb91c59499bff633880bb8ae
+guid: e87ea0c33ef90ef459bdd475e7f4f7c7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5674915290707647524
-    second: prop1yellowwhitefolder_0
+      213: 2913190346721113043
+    second: painelcyan with 001_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: prop1yellowwhitefolder_0
+      name: painelcyan with 001_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 42cdf01d36951ce40800000000000000
-      internalID: 5674915290707647524
+      spriteID: 3d3b8638f2bbd6820800000000000000
+      internalID: 2913190346721113043
       vertices: []
       indices: 
       edges: []

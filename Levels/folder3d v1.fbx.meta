@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0832f59e6859be54fb2a0a0c917ee687
+guid: c157ce9d6b5258f4a8cd616d871576d9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: prop1texture folder
-    second: {fileID: 2100000, guid: ec8b8915e467b494c856243a74f19888, type: 2}
+    second: {fileID: 2100000, guid: 27d7da5ac3758fe4d9043970b9d2978d, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: prop1yellowwhitefolder
-    second: {fileID: 2800000, guid: 560b062eeb91c59499bff633880bb8ae, type: 3}
+    second: {fileID: 2800000, guid: ae3fccb434d977745904fbe4a3f54cea, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

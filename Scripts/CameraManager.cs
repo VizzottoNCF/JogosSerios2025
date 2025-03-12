@@ -63,6 +63,7 @@ public class CameraManager : MonoBehaviour
 
 
     ///TODO: METHOD TO CHANGE CAMERA BOUNDARIES ONCE YOU GET INTO A NEW SCENE 
+    /// NEVERMIND. SCRAPPED IDEA, IT'LL BE DIFFERENT PHASES.
     ///
     //private void Start()
     //{
@@ -77,10 +78,13 @@ public class CameraManager : MonoBehaviour
     //    }
     //}
 
+    #region SWAP Z TRANSPOSITION COMPOSER
+    public void rf_TurnCameraZOffsetAround()
+    {
+        _PositionComposer.TargetOffset.z *= -1f;
+    }
+    #endregion
 
-    /// <summary>
-    /// TODO: OFFSET LERP FOR BETTER VISABILITY
-    /// </summary>
     #region Lerp Y Offset
     public void rf_LerpYOffset(float variation)
     {

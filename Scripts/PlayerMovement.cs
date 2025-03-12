@@ -66,10 +66,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.L)) { Time.timeScale = 0.2f; } else { Time.timeScale = 1f; }
+        // DEBUG: SLOW DOWN TIME
+        if (Input.GetKey(KeyCode.L) && moveStats.SlowDownTime) { Time.timeScale = 0.2f; } else { Time.timeScale = 1f; }
 
-        if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S)) { _upHeldTimer += Time.deltaTime; } else { _upHeldTimer = 0f; }
-        if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W)) { _downHeldTimer += Time.deltaTime; } else { _downHeldTimer = 0f; }
+        // look up and down
+        if (InputManager.Movement.x == 0 && InputManager.Movement.y > 0) { _upHeldTimer += Time.deltaTime; } else { _upHeldTimer = 0f; }
+        if (InputManager.Movement.x == 0 && InputManager.Movement.y < 0) { _downHeldTimer += Time.deltaTime; } else { _downHeldTimer = 0f; }
 
         if (_upHeldTimer > 0.45f && !CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffset(2f); }
         if (_downHeldTimer > 0.45f && !CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffset(-3f); }
@@ -79,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         rf_JumpChecks();
         rf_CountTimers();
 
-        if (CameraManager.instance != null )
+        if (CameraManager.instance != null)
         {
             // camera adjustment if we are falling past a certain speed threshold
             if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling && !CameraManager.instance.IsLerpingYOffset)
@@ -97,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
                 CameraManager.instance.rf_LerpYDamping(false);
                 CameraManager.instance.rf_LerpYOffsetToNormal();
             }
-        } else { Debug.LogWarning("Camera Manager is Null");  }
+        }
+        else { Debug.LogWarning("Camera Manager is Null"); }
     }
 
     private void FixedUpdate()
@@ -167,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
             // turn the camera follow object
             _cameraFollowObject.rf_CallTurn();
+            CameraManager.instance.rf_TurnCameraZOffsetAround();
         }
         else
         {
@@ -177,6 +181,7 @@ public class PlayerMovement : MonoBehaviour
 
             // turn the camera follow object
             _cameraFollowObject.rf_CallTurn();
+            CameraManager.instance.rf_TurnCameraZOffsetAround();
         }
     }
 
@@ -369,6 +374,8 @@ public class PlayerMovement : MonoBehaviour
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, VerticalVelocity);
     }
 
+    public bool rf_IsFalling() { return _isFalling; }
+
     #endregion
 
     #region Timers
@@ -412,8 +419,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 boxCastSize = new Vector2(_bodyCollider.bounds.size.x * moveStats.HeadWidth * 0.8f, moveStats.HeadDetectionRayLength);
 
         // Body cast hitboxes to prevent edge detection happening against straight walls
-        Vector2 bodyCastOriginLeft = new Vector2(_bodyCollider.bounds.min.x, _bodyCollider.bounds.max.y * 0.8f);
-        Vector2 bodyCastOriginRight = new Vector2(_bodyCollider.bounds.max.x, _bodyCollider.bounds.max.y * 0.8f);
+        Vector2 bodyCastOriginLeft = new Vector2(_bodyCollider.bounds.min.x, _bodyCollider.bounds.max.y);
+        Vector2 bodyCastOriginRight = new Vector2(_bodyCollider.bounds.max.x, _bodyCollider.bounds.max.y);
 
 
         // Edge detection hitboxes (10% of the head width on each side)
@@ -438,10 +445,11 @@ public class PlayerMovement : MonoBehaviour
         if (((_edgeDetectionLeft && !_bodyDetectionLeft) || (_edgeDetectionRight && !_bodyDetectionRight) && !_headHit && !_isGrounded))
         {
             // Shift the player to the side to avoid the edge collision
-            rf_EdgeCorrection();
+            //rf_EdgeCorrection();
             _bumpedHead = false; // Prevent head bump flag from being set
         }
-        if (_headHit.collider != null) { _bumpedHead = true; } // regular head bump
+        // head bump flag is set if the ground is not a platform type
+        if (_headHit.collider != null && _headHit.collider.gameObject.GetComponent<PlatformEffector2D>() == null) { _bumpedHead = true; } // regular head bump
         else { _bumpedHead = false; } // no collision
 
 
@@ -499,9 +507,11 @@ public class PlayerMovement : MonoBehaviour
             // Perform a raycast upward to detect platforms within the vertical threshold
             RaycastHit2D ledgeHitRight = Physics2D.Raycast(rayOrigin, Vector2.right, moveStats.LedgeSnapHorizontalRange, moveStats.GroundLayer);
             RaycastHit2D ledgeHitLeft = Physics2D.Raycast(rayOrigin, Vector2.left, moveStats.LedgeSnapHorizontalRange, moveStats.GroundLayer);
-            Debug.DrawRay(rayOrigin, Vector2.right * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
-            Debug.DrawRay(rayOrigin, Vector2.left * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
-
+            if (moveStats.DebugShowHeadBumpBox)
+            {
+                Debug.DrawRay(rayOrigin, Vector2.right * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
+                Debug.DrawRay(rayOrigin, Vector2.left * moveStats.LedgeSnapHorizontalRange, Color.red, 2f);
+            }
 
             // If a platform is detected within the vertical threshold 
             if (ledgeHitRight.collider != null)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugShowIsGroundedBox: 1
   DebugShowHeadBumpBox: 1
-  SlowDownTime: 1
+  SlowDownTime: 0
   maxWalkSpeed: 12.5
   groundAcceleration: 5
   groundDeceleration: 20
@@ -28,13 +28,13 @@ MonoBehaviour:
   HeadDetectionRayLength: 0.02
   HeadWidth: 0.75
   EdgeCorrectionDistance: 0.1
-  LedgeSnapHorizontalRange: 0.76
-  LedgeSnapVerticalThreshold: 0.62
-  LedgeSnapVerticalOffset: 0.4
+  LedgeSnapHorizontalRange: 0.28
+  LedgeSnapVerticalThreshold: 0.35
+  LedgeSnapVerticalOffset: 0.24
   JumpHeight: 4
   JumpHeightCompensationFactor: 1.0613
   TimeTillJumpApex: 0.3
-  GravityOnReleaseMultiplier: 1.88
+  GravityOnReleaseMultiplier: 1.57
   MaxFallSpeed: 26
   NumberOfJumpsAllowed: 1
   TimeForUpwardsCancel: 0.027
