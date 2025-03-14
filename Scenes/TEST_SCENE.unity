@@ -1702,6 +1702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2722b2d07ec0964a907353fe8aaba31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FloatSpin: 0
+  GyroSpin: 0
+  GyroSpinDirection: 0
 --- !u!1 &984416869
 GameObject:
   m_ObjectHideFlags: 0
@@ -3615,8 +3618,9 @@ SceneRoots:
   - {fileID: 1657018327}
   - {fileID: 902206449}
   - {fileID: 1657913737}
-  - {fileID: 766282153}
+  - {fileID: 1207612772}
   - {fileID: 1453831191}
+  - {fileID: 766282153}
   - {fileID: 1608261196}
   - {fileID: 1766087713}
   - {fileID: 344846249}
@@ -3625,4 +3629,3 @@ SceneRoots:
   - {fileID: 303953216}
   - {fileID: 455974752}
   - {fileID: 1612666031}
-  - {fileID: 1207612772}

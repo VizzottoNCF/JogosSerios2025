@@ -19,7 +19,7 @@ public class HackableObject : MonoBehaviour
 
         if (ObjectType == re_ObjectType.PLATFORM)
         {
-            _coll.enabled = false;
+            _coll.isTrigger = true;
             //debug
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
@@ -46,7 +46,7 @@ public class HackableObject : MonoBehaviour
     #region Platform Hack
     private void rf_PlatformHack()
     {
-        _coll.enabled = true;
+        _coll.isTrigger = false;
         //debug
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
