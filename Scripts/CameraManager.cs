@@ -32,7 +32,7 @@ public class CameraManager : MonoBehaviour
     private Coroutine _lerpYOffsetCoroutineBack;
     [SerializeField] private float _YOffsetTime = 0.35f;
 
-
+    public CinemachineCamera rCC_GetCurrentCamera() { return _currentCamera; }
 
     private float _normYPanAmount;
 
