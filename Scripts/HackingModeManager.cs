@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class HackingModeManager : MonoBehaviour
 {
     public static HackingModeManager Instance;
     public bool IsHackingModeActive;
+    [SerializeField] private GameObject triggerPrefab;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private void Update()
     {
@@ -14,6 +17,7 @@ public class HackingModeManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             IsHackingModeActive = !IsHackingModeActive;
+            rf_SpawnRipple(transform);
         }
 
         // Se o modo de hacking estiver ativo, verifica cliques do mouse
@@ -42,22 +46,42 @@ public class HackingModeManager : MonoBehaviour
                 // ------------------------------------------------------------------
 
                 // Versão simplificada utilizando a câmera principal (Camera.main)
-                Camera mainCamera = Camera.main;
-                if (mainCamera != null)
+
+
+
+                Vector3 worldPos = rv3_GetWorldPosition();
+                if (worldPos != Vector3.zero)
                 {
-                    Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-                    if (Physics.Raycast(ray, out RaycastHit hit))
-                    {
-                        // Verifica se o objeto atingido possui o componente HackableObject
-                        HackableObject hackable = hit.collider.GetComponent<HackableObject>();
-                        if (hackable != null)
-                        {
-                            hackable.rf_ObjectHacked();
-                        }
-                    }
+                    GameObject triggerObj = Instantiate(triggerPrefab, worldPos, Quaternion.identity);
+                    Destroy(triggerObj, 0.1f); // Destroy after a short time
                 }
             }
+
         }
+    }
+
+    private Vector3 rv3_GetWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit.point;
+        }
+
+        return Vector3.zero; // Return zero if no hit
+    }
+
+    public void rf_SpawnRipple(Transform Position)
+    {
+        ParticleSystem instantiatedParticleSystem = Instantiate(_particleSystem, Position.position, Position.rotation);
+
+        ParticleSystem.MainModule mainModule = instantiatedParticleSystem.main;
+
+        _particleSystem.transform.position = Position.position;
+
+        _particleSystem.Play();
     }
 }
 
