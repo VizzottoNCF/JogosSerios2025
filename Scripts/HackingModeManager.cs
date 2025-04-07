@@ -16,8 +16,7 @@ public class HackingModeManager : MonoBehaviour
         // Alterna o modo de hacking ao pressionar a tecla E
         if (Input.GetKeyDown(KeyCode.E))
         {
-            IsHackingModeActive = !IsHackingModeActive;
-            rf_SpawnRipple(transform);
+            rf_SwitchStates();
         }
 
         // Se o modo de hacking estiver ativo, verifica cliques do mouse
@@ -57,6 +56,27 @@ public class HackingModeManager : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    // switch between active or inactive 
+    private void rf_SwitchStates()
+    {
+
+        // activate 
+        if (!IsHackingModeActive)
+        {
+            // enable shader graph
+            FullScreenHackController.instance.rf_ToggleHackModeOn();
+            IsHackingModeActive = true;
+        }
+
+        //deactivate
+        else if (IsHackingModeActive)
+        {
+            // disable shader graph
+            FullScreenHackController.instance.rf_ToggleHackModeOff();
+            IsHackingModeActive = false;
         }
     }
 
