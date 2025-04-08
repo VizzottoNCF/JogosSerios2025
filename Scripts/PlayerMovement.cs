@@ -109,14 +109,17 @@ public class PlayerMovement : MonoBehaviour
         rf_Jump();
         rf_LedgeAssist();
 
-        if (_isGrounded)
+        if (_isGrounded && !HackingModeManager.Instance.IsHackingModeActive)
         {
             rf_Move(moveStats.groundAcceleration, moveStats.groundDeceleration, InputManager.Movement);
         }
-        else
+        else if (!_isGrounded && !HackingModeManager.Instance.IsHackingModeActive)
         {
             rf_Move(moveStats.airAcceleration, moveStats.airDeceleration, InputManager.Movement);
         }
+
+        // stop ice slide if you open hack mode while walking on ground
+        if (_isGrounded && HackingModeManager.Instance.IsHackingModeActive) { _rb.linearVelocityX = 0; }
     }
 
 

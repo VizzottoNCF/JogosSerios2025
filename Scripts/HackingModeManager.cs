@@ -2,14 +2,21 @@ using System;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class HackingModeManager : MonoBehaviour
+public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
 {
     public static HackingModeManager Instance;
     public bool IsHackingModeActive;
     [SerializeField] private GameObject triggerPrefab;
     [SerializeField] private ParticleSystem _particleSystem;
+
+    private void Awake()
+    {
+        // singleton instance
+        if (Instance == null) { Instance = this; }
+    }
 
     private void Update()
     {
@@ -17,45 +24,6 @@ public class HackingModeManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             rf_SwitchStates();
-        }
-
-        // Se o modo de hacking estiver ativo, verifica cliques do mouse
-        if (IsHackingModeActive)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 mousePosition = Input.mousePosition;
-
-                // --- Código original com gerenciamento de câmeras (comentado) ---
-                // Camera activeCamera = CameraManager.instance.rCC_GetCurrentCamera()
-                //     .GetComponent<CinemachineBrain>().OutputCamera;
-                // if (activeCamera != null)
-                // {
-                //     Ray ray = activeCamera.ScreenPointToRay(mousePosition);
-                //     if (Physics.Raycast(ray, out RaycastHit hit))
-                //     {
-                //         // Aqui você pode usar o hit para identificar o objeto e chamar o método de hack
-                //         HackableObject hackable = hit.collider.GetComponent<HackableObject>();
-                //         if (hackable != null)
-                //         {
-                //             hackable.rf_ObjectHacked();
-                //         }
-                //     }
-                // }
-                // ------------------------------------------------------------------
-
-                // Versão simplificada utilizando a câmera principal (Camera.main)
-
-
-
-                Vector3 worldPos = rv3_GetWorldPosition();
-                if (worldPos != Vector3.zero)
-                {
-                    GameObject triggerObj = Instantiate(triggerPrefab, worldPos, Quaternion.identity);
-                    Destroy(triggerObj, 0.1f); // Destroy after a short time
-                }
-            }
-
         }
     }
 
@@ -103,5 +71,36 @@ public class HackingModeManager : MonoBehaviour
 
         _particleSystem.Play();
     }
+
+
+
+    #region Click Logic
+
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    print("Event PointerDown triggered");
+    //    if (!IsHackingModeActive) { return; }
+
+    //    print("Is on Hack Mode");
+    //    // Check if clicked object has the component
+    //    GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
+
+    //    if (clickedObject == null) { return; }
+        
+    //    print(clickedObject.name);
+
+    //    HackableObject hackable = clickedObject.GetComponent<HackableObject>();
+
+    //    if (hackable != null)
+    //    {
+    //        Debug.Log("Hackable object clicked!");
+    //        hackable.rf_ObjectHacked();
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Clicked object is not hackable.");
+    //    }
+    //}
+    #endregion
 }
 

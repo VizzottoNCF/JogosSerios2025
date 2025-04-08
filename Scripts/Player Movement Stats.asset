@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugShowIsGroundedBox: 1
   DebugShowHeadBumpBox: 1
-  SlowDownTime: 0
-  maxWalkSpeed: 12.5
+  SlowDownTime: 1
+  maxWalkSpeed: 8.5
   groundAcceleration: 5
   groundDeceleration: 20
   airAcceleration: 7.9
   airDeceleration: 5
-  maxRunSpeed: 20
+  maxRunSpeed: 15
   GroundLayer:
     serializedVersion: 2
     m_Bits: 128

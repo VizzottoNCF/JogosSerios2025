@@ -20,7 +20,6 @@ public class spin : MonoBehaviour
         if (GyroSpin)
         {
             _quat *= Quaternion.Euler(0, GyroSpinDirection, GyroSpinDirection);
-            //_quat *= Quaternion.Euler(0, 1, 1);
         }
 
         if (FloatSpin)
