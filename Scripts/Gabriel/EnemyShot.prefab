@@ -214,7 +214,7 @@ MonoBehaviour:
   rayDistance: 5
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   projectilePrefab: {fileID: 1664704362596914577, guid: 26ca18b99f2878c4789cbcbb92c2bae6, type: 3}
   firePoint: {fileID: 6220063270292773759}
   shootCooldown: 1

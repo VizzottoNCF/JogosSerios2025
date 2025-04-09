@@ -19,6 +19,8 @@ public class EnemyShot : MonoBehaviour
     public float shootCooldown = 1f;    // Intervalo entre tiros
     private float lastShootTime = 0f;
 
+    private Transform player; // Referência ao transform do player
+    private Rigidbody2D rb;   // Componente Rigidbody2D do inimigo
     void Start()
     {
         // Mantém a posição Y fixa para patrulha
@@ -29,88 +31,117 @@ public class EnemyShot : MonoBehaviour
         posA.y = fixedY;
         posB.y = fixedY;
         targetPos = posB;
-    }
 
-    void Update()
-    {
-        Patrol();
-        DetectAndShoot();
-    }
-
-    void Patrol()
-    {
-        // Movimento entre os pontos A e B
-        float newX = Mathf.MoveTowards(transform.position.x, targetPos.x, speed * Time.deltaTime);
-        transform.position = new Vector3(newX, fixedY, transform.position.z);
-
-        // Quando chega perto do destino, inverte o alvo e a direção
-        if (Mathf.Abs(transform.position.x - targetPos.x) < 0.1f)
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            targetPos = (targetPos == posB) ? posA : posB;
-            Flip();
+            player = playerObj.transform;
         }
-    }
-
-    void Flip()
-    {
-        // Inverte a escala X para mudar a direção
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-        // Se necessário, você pode ajustar a posição do firePoint aqui
-        // Exemplo: firePoint.localPosition = new Vector3(Mathf.Abs(firePoint.localPosition.x) * (scale.x > 0 ? 1 : -1), firePoint.localPosition.y, firePoint.localPosition.z);
-    }
-
-    void DetectAndShoot()
-    {
-        // Define a direção de disparo com base na escala:
-        // Se localScale.x > 0, a frente é para a direita; caso contrário, para a esquerda.
-        Vector2 shootDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-
-        // Realiza o raycast para detectar o player na direção da frente
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, shootDirection, rayDistance, playerLayer);
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        else
         {
-            // Se o player estiver atrás, inverte a direção antes de disparar
-            bool playerInFront = (transform.localScale.x > 0 && hit.collider.transform.position.x > transform.position.x) ||
-                                 (transform.localScale.x < 0 && hit.collider.transform.position.x < transform.position.x);
+            Debug.LogError("Player não encontrado! Certifique-se de que o objeto do player tenha a tag 'Player'.");
+        }
 
-            if (!playerInFront)
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D não encontrado! Adicione um componente Rigidbody2D ao inimigo.");
+        }
+
+        void Update()
+        {
+            Patrol();
+            DetectAndShoot();
+        }
+
+        void FixedUpdate()
+        {
+            if (player != null && rb != null)
             {
+                // Calcula a direção horizontal em relação ao player
+                float direction = player.position.x - transform.position.x;
+                float moveDirection = Mathf.Sign(direction); // -1 para esquerda, 1 para direita
+
+                // Atualiza a velocidade horizontal mantendo a velocidade vertical inalterada
+                rb.linearVelocity = new Vector2(moveDirection * speed, rb.linearVelocity.y);
+            }
+        }
+
+        void Patrol()
+        {
+            // Movimento entre os pontos A e B
+            float newX = Mathf.MoveTowards(transform.position.x, targetPos.x, speed * Time.deltaTime);
+            transform.position = new Vector3(newX, fixedY, transform.position.z);
+
+            // Quando chega perto do destino, inverte o alvo e a direção
+            if (Mathf.Abs(transform.position.x - targetPos.x) < 0.1f)
+            {
+                targetPos = (targetPos == posB) ? posA : posB;
                 Flip();
-                return; // Aguarda o próximo frame para tentar disparar novamente
-            }
-
-            // Se o cooldown permitir, dispara o projétil
-            if (Time.time - lastShootTime >= shootCooldown)
-            {
-                Shoot();
-                lastShootTime = Time.time;
             }
         }
-    }
 
-    void Shoot()
-    {
-        if (projectilePrefab != null && firePoint != null)
+        void Flip()
         {
-            // Instancia o projétil na posição do firePoint
-            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            // Inverte a escala X para mudar a direção
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+            // Se necessário, você pode ajustar a posição do firePoint aqui
+            // Exemplo: firePoint.localPosition = new Vector3(Mathf.Abs(firePoint.localPosition.x) * (scale.x > 0 ? 1 : -1), firePoint.localPosition.y, firePoint.localPosition.z);
+        }
 
-            // Define a direção do projétil com base na escala do inimigo
+        void DetectAndShoot()
+        {
+            // Define a direção de disparo com base na escala:
+            // Se localScale.x > 0, a frente é para a direita; caso contrário, para a esquerda.
             Vector2 shootDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-            Project projectileScript = proj.GetComponent<Project>();
-            if (projectileScript != null)
-            {
-                projectileScript.direction = shootDirection;
-            }
 
-            // Impede que o projétil colida com o inimigo que o disparou
-            Collider2D enemyCollider = GetComponent<Collider2D>();
-            Collider2D projCollider = proj.GetComponent<Collider2D>();
-            if (enemyCollider != null && projCollider != null)
+            // Realiza o raycast para detectar o player na direção da frente
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, shootDirection, rayDistance, playerLayer);
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                Physics2D.IgnoreCollision(enemyCollider, projCollider);
+                // Se o player estiver atrás, inverte a direção antes de disparar
+                bool playerInFront = (transform.localScale.x > 0 && hit.collider.transform.position.x > transform.position.x) ||
+                                     (transform.localScale.x < 0 && hit.collider.transform.position.x < transform.position.x);
+
+                if (!playerInFront)
+                {
+                    Flip();
+                    return; // Aguarda o próximo frame para tentar disparar novamente
+                }
+
+                // Se o cooldown permitir, dispara o projétil
+                if (Time.time - lastShootTime >= shootCooldown)
+                {
+                    Shoot();
+                    lastShootTime = Time.time;
+                }
+            }
+        }
+
+        void Shoot()
+        {
+            if (projectilePrefab != null && firePoint != null)
+            {
+                // Instancia o projétil na posição do firePoint
+                GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+                // Define a direção do projétil com base na escala do inimigo
+                Vector2 shootDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+                Project projectileScript = proj.GetComponent<Project>();
+                if (projectileScript != null)
+                {
+                    projectileScript.direction = shootDirection;
+                }
+
+                // Impede que o projétil colida com o inimigo que o disparou
+                Collider2D enemyCollider = GetComponent<Collider2D>();
+                Collider2D projCollider = proj.GetComponent<Collider2D>();
+                if (enemyCollider != null && projCollider != null)
+                {
+                    Physics2D.IgnoreCollision(enemyCollider, projCollider);
+                }
             }
         }
     }
