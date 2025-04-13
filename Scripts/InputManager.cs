@@ -10,10 +10,12 @@ public class InputManager : MonoBehaviour
     public static bool jumpIsHeld;
     public static bool jumpWasReleased;
     public static bool runIsHeld;
+    public static bool DialogSkipPressed;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
     private InputAction _runAction;
+    private InputAction _DialogSkipAction;
 
     private void Awake()
     {
@@ -22,6 +24,8 @@ public class InputManager : MonoBehaviour
         _moveAction = PlayerInput.actions["Move"];
         _jumpAction = PlayerInput.actions["Jump"];
         _runAction = PlayerInput.actions["Run"];
+        _DialogSkipAction = PlayerInput.actions["DialogSkip"];
+
     }
 
     private void Update()
@@ -33,5 +37,8 @@ public class InputManager : MonoBehaviour
         jumpWasReleased = _jumpAction.WasReleasedThisFrame();
 
         runIsHeld = _runAction.IsPressed();
+
+
+        DialogSkipPressed = _DialogSkipAction.WasPressedThisFrame();
     }
 }

@@ -37,6 +37,7 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
             // enable shader graph
             FullScreenHackController.instance.rf_ToggleHackModeOn();
             IsHackingModeActive = true;
+            GameController.Instance.CanPlayerMove = false;
         }
 
         //deactivate
@@ -45,6 +46,7 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
             // disable shader graph
             FullScreenHackController.instance.rf_ToggleHackModeOff();
             IsHackingModeActive = false;
+            GameController.Instance.CanPlayerMove = true;
         }
     }
 

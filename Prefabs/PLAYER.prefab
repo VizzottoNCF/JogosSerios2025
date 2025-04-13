@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 2783585319266759309}
   m_Layer: 0
   m_Name: Feet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,6 +412,7 @@ GameObject:
   - component: {fileID: 8299397787147735140}
   - component: {fileID: 7465228802666031542}
   - component: {fileID: 4416818171692846788}
+  - component: {fileID: 7008527263862330591}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -536,6 +537,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7008527263862330591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354098029625743425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f68caa52da46b349ad0fe6682aae5eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanPlayerMove: 1
 --- !u!1 &8293116145307739870
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +562,7 @@ GameObject:
   - component: {fileID: 2531028665827077765}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -616,7 +630,7 @@ GameObject:
   - component: {fileID: 6834020090862517280}
   m_Layer: 0
   m_Name: Colliders
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

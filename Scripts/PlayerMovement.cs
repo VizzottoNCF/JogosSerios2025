@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
         if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.W)) && CameraManager.instance.IsLerpingYOffset) { CameraManager.instance.rf_LerpYOffsetToNormal(); }
 
-        rf_JumpChecks();
+        if (GameController.Instance.CanPlayerMove) { rf_JumpChecks(); }
         rf_CountTimers();
 
         if (CameraManager.instance != null)
@@ -109,17 +109,17 @@ public class PlayerMovement : MonoBehaviour
         rf_Jump();
         rf_LedgeAssist();
 
-        if (_isGrounded && !HackingModeManager.Instance.IsHackingModeActive)
+        if (_isGrounded && GameController.Instance.CanPlayerMove)
         {
             rf_Move(moveStats.groundAcceleration, moveStats.groundDeceleration, InputManager.Movement);
         }
-        else if (!_isGrounded && !HackingModeManager.Instance.IsHackingModeActive)
+        else if (!_isGrounded && GameController.Instance.CanPlayerMove)
         {
             rf_Move(moveStats.airAcceleration, moveStats.airDeceleration, InputManager.Movement);
         }
 
         // stop ice slide if you open hack mode while walking on ground
-        if (_isGrounded && HackingModeManager.Instance.IsHackingModeActive) { _rb.linearVelocityX = 0; }
+        if (_isGrounded && !GameController.Instance.CanPlayerMove) { _rb.linearVelocityX = 0; }
     }
 
 

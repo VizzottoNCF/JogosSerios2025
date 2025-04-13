@@ -36,14 +36,14 @@ public class FullScreenHackController : MonoBehaviour
     // Call this to activate hacker mode effect
     public void rf_ToggleHackModeOn()
     {
-        if (_currentRoutine != null) StopCoroutine(_currentRoutine);
+        if (_currentRoutine != null) { StopCoroutine(_currentRoutine); }
         _currentRoutine = StartCoroutine(rIE_ActivateHackMode());
     }
 
     // Call this to deactivate hacker mode effect
     public void rf_ToggleHackModeOff()
     {
-        if (_currentRoutine != null) StopCoroutine(_currentRoutine);
+        if (_currentRoutine != null) { StopCoroutine(_currentRoutine); }
         _currentRoutine = StartCoroutine(rIE_FadeOutHackEffect());
     }
 
