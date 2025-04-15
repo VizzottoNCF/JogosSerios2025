@@ -48,10 +48,7 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        print("i"+_index);
-        print("l"+_lines.Length);
-
-        // if there is dialog, enable canvas
+        // if there is NO dialog, disable canvas
         if (!_IsDialogHappening) { _dialogCanvas.gameObject.SetActive(false); }
 
         _skipTimer += Time.deltaTime;
@@ -121,8 +118,6 @@ public class DialogManager : MonoBehaviour
 
     private void rf_NextLine(string[] speaker, Sprite[] portrait)
     {
-        //print(_index + " " + speaker[_index]);
-
         // moves to next text line
         if (_index < _lines.Length)
         {

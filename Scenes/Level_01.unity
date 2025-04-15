@@ -3687,7 +3687,7 @@ MonoBehaviour:
   _3D_Mesh: {fileID: 788793881}
   ObjectType: 1
   _ActiveCoord: {x: 4.83, y: 1, z: 0}
-  _InactiveCoord: {x: 4.83, y: 5, z: 0}
+  _InactiveCoord: {x: 2.3, y: 5, z: 0}
   _tweenDuration: 1
 --- !u!1 &1591913060
 GameObject:

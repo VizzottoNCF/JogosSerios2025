@@ -18,8 +18,6 @@ public class DialogTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //print("Colisão" +  collision.gameObject.name);
-
         // call dialog if it never triggered before
         if (collision.gameObject.CompareTag("Player") && !_hasBeenActivated)
         {

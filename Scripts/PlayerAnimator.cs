@@ -2,10 +2,18 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
+    public static PlayerAnimator Instance;
+
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
 
-    void Update()
+
+    private void Awake()
+    {
+        // singleton instance
+        if (Instance == null) { Instance = this; }
+    }
+    private void Update()
     {
 
         float moveInput = InputManager.Movement.x;

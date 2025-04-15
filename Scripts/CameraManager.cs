@@ -119,7 +119,7 @@ public class CameraManager : MonoBehaviour
     {
         // grab stating offset amount
         float startOffsetAmount = _PositionComposer.TargetOffset.y;
-        float endOffsetAmount = 2f;
+        float endOffsetAmount = 3f;
 
         float elapsedTime = 0f;
         while (elapsedTime < _YOffsetTime)
