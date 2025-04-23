@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D _bodyDetectionRight;
     private bool _isGrounded;
     private bool _bumpedHead;
+    private MovingPlatform _currentMovingPlatform;
 
     [Header("Jump Variables")]
     public float VerticalVelocity { get; private set; }
@@ -118,10 +119,17 @@ public class PlayerMovement : MonoBehaviour
             rf_Move(moveStats.airAcceleration, moveStats.airDeceleration, InputManager.Movement);
         }
 
+        // logic for when you're in a moving object
+        if (_currentMovingPlatform != null)
+        {
+            // adds the amount the object has moved onto the players position
+            transform.position += _currentMovingPlatform.DeltaPosition;
+        }
+
+
         // stop ice slide if you open hack mode while walking on ground
         if (_isGrounded && !GameController.Instance.CanPlayerMove) { _rb.linearVelocityX = 0; }
     }
-
 
     #region Movement
 
@@ -279,6 +287,8 @@ public class PlayerMovement : MonoBehaviour
         _numberOfJumpsUsed += numberOfJumpsUsed;
         VerticalVelocity = moveStats.InitialJumpVelocity;
     }
+
+
     /// <summary>
     /// Jump logic 
     /// </summary>
@@ -398,8 +408,13 @@ public class PlayerMovement : MonoBehaviour
         Vector2 boxCastSize = new Vector2(_feetCollider.bounds.size.x, moveStats.GroundDetectionRayLength);
 
         _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, moveStats.GroundDetectionRayLength, moveStats.GroundLayer);
+
         if (_groundHit.collider != null) { _isGrounded = true; }
         else { _isGrounded = false; }
+
+        // if player is grounded on a moving platform/wall, he will be set as a child object to move along with it, whenever he leaves, he is set free
+        if (_groundHit.collider != null && _groundHit.collider.gameObject.CompareTag("MovingPlatform")) { _currentMovingPlatform = _groundHit.collider.gameObject.GetComponent<MovingPlatform>(); }
+        else { _currentMovingPlatform = null; }
 
         #region Debug Visualisation
         if (moveStats.DebugShowIsGroundedBox)
@@ -483,6 +498,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    //TODO: FIX THIS
     private void rf_EdgeCorrection()
     {
         // Determine which edge is colliding
@@ -572,7 +588,6 @@ public class PlayerMovement : MonoBehaviour
         rf_IsGrounded();
         rf_BumpedHead();
     }
-
 
     #endregion
 }

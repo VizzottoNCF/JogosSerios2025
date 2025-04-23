@@ -12,6 +12,10 @@ public class HackableObject : MonoBehaviour
     [SerializeField] private Vector3 _InactiveCoord;
     [SerializeField] private float _tweenDuration = 1f;
 
+    [Header("Situational")]
+    
+
+
     private Tween _currentTween;
     private Tween _multiTween;
 
@@ -41,12 +45,12 @@ public class HackableObject : MonoBehaviour
         }
     }
 
+
     private void OnMouseDown()
     {
         if (HackingModeManager.Instance.IsHackingModeActive)
         {
             rf_ObjectHacked();
-            print(gameObject.name);
         }
     }
 
@@ -112,6 +116,7 @@ public class HackableObject : MonoBehaviour
 
     }
     #endregion
+
     #region Wall Hack
     private void rf_WallHack()
     {
@@ -130,6 +135,7 @@ public class HackableObject : MonoBehaviour
         }
     }
     #endregion
+
     #region Door Hack
     private void rf_DoorHack()
     {
