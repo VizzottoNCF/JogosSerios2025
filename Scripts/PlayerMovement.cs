@@ -412,9 +412,13 @@ public class PlayerMovement : MonoBehaviour
         if (_groundHit.collider != null) { _isGrounded = true; }
         else { _isGrounded = false; }
 
+        GameController.Instance.IsPlayerGrounded = _isGrounded;
+
         // if player is grounded on a moving platform/wall, he will be set as a child object to move along with it, whenever he leaves, he is set free
         if (_groundHit.collider != null && _groundHit.collider.gameObject.CompareTag("MovingPlatform")) { _currentMovingPlatform = _groundHit.collider.gameObject.GetComponent<MovingPlatform>(); }
         else { _currentMovingPlatform = null; }
+
+
 
         #region Debug Visualisation
         if (moveStats.DebugShowIsGroundedBox)

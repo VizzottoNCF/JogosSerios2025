@@ -20,8 +20,8 @@ public class FullScreenHackController : MonoBehaviour
     private int _voronoiIntensity = Shader.PropertyToID("_VoronoiIntensity");
     private int _vignetteIntensity = Shader.PropertyToID("_VignetteIntensity");
 
-    private const float VORONOI_INTENSITY_START_AMOUNT = 1f;
-    private const float VIGNETTE_INTENSITY_START_AMOUNT = 0.85f;
+    private const float VORONOI_INTENSITY_START_AMOUNT = 2f;
+    private const float VIGNETTE_INTENSITY_START_AMOUNT = 1f;
 
     private Coroutine _currentRoutine;
 

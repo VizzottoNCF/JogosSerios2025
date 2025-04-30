@@ -14,7 +14,7 @@ public class MovingPlatform : MonoBehaviour
         _lastPosition = transform.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // delta position is added onto players position when players is on top of platform
         DeltaPosition = transform.position - _lastPosition;

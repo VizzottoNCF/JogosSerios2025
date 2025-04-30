@@ -16,13 +16,17 @@ public class PlayerAnimator : MonoBehaviour
     private void Update()
     {
 
-        float moveInput = InputManager.Movement.x;
+        float _horizontalMoveInput = InputManager.Movement.x;
+        float _verticalMoveInput = InputManager.Movement.y;
 
-        animator.SetFloat("HorizontalInput", Mathf.Abs(moveInput));
+        // system shift stats
+        animator.SetBool("SystemShift", HackingModeManager.Instance.IsHackingModeActive);
+
+        // idle stats
+        animator.SetBool("IsStill", HackingModeManager.Instance.IsHackingModeActive  || (_horizontalMoveInput == 0 && GameController.Instance.IsPlayerGrounded));
 
 
         // Jumping state
-        animator.SetBool("IsJumping", rb.linearVelocity.y > 0.1f);
         animator.SetBool("IsFalling", rb.linearVelocity.y < -0.1f);
     }
 }

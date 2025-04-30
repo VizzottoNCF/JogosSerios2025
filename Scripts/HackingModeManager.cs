@@ -9,7 +9,6 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
 {
     public static HackingModeManager Instance;
     public bool IsHackingModeActive;
-    [SerializeField] private GameObject triggerPrefab;
     [SerializeField] private ParticleSystem _particleSystem;
 
     private void Awake()
