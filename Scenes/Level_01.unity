@@ -762,6 +762,10 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outWeight
       value: 0.08672567
       objectReference: {fileID: 0}
+    - target: {fileID: 7019859847914009406, guid: fb6bec7781d231d4181c9d447434d236, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 1145136029}
     - target: {fileID: 7086310064414646366, guid: fb6bec7781d231d4181c9d447434d236, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24

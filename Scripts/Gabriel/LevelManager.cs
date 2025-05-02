@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        // Cria os botões ao iniciar
+        // Cria os botoes ao iniciar
         for (int i = 1; i <= numberOfLevels; i++)
         {
             GameObject newButton = Instantiate(levelButtonPrefab, buttonParent);
