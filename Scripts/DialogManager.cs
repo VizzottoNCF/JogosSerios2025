@@ -51,6 +51,10 @@ public class DialogManager : MonoBehaviour
         // if there is NO dialog, disable canvas
         if (!_IsDialogHappening) { _dialogCanvas.gameObject.SetActive(false); }
 
+        // certifies that player can not move while in dialog
+        if (_IsDialogHappening && GameController.Instance.CanPlayerMove) { GameController.Instance.CanPlayerMove = false; }
+
+
         _skipTimer += Time.deltaTime;
         /// ------------------ TEXT BOX
         if (InputManager.DialogSkipPressed && _IsDialogHappening && _skipTimer >= 0.5f)

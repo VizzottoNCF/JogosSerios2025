@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region vars
     [Header("References")]
-    public PlayerMovementStats moveStats;
+    [SerializeField] private PlayerMovementStats moveStats;
     [SerializeField] private Collider2D _feetCollider;
     [SerializeField] private Collider2D _bodyCollider;
 

@@ -34,8 +34,8 @@ public class HackableObject : MonoBehaviour
         _coll = GetComponent<Collider2D>();
 
         // assort _3D_Mesh position
-        if (IsActive) { _3D_Mesh.transform.position = _ActiveCoord; }
-        else { _3D_Mesh.transform.position = _InactiveCoord; }
+        //if (IsActive) { _3D_Mesh.transform.position = _ActiveCoord; }
+        //else { _3D_Mesh.transform.position = _InactiveCoord; }
 
         // platform setup
         if (ObjectType == re_ObjectType.PLATFORM)

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 947363093122019796}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -601,8 +601,10 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _lineRenderer: {fileID: 6763432860970489990}
   _firePoint: {fileID: 3695042110797781441}
+  moveStats: {fileID: 11400000, guid: d5bc27c4641fc0a40bfa2ffaf3922317, type: 2}
   IsPlayerLaser: 1
   IsTurnedOn: 1
+  _LaserRange: 8
 --- !u!1 &7354098029625743425
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +757,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanPlayerMove: 1
   IsPlayerGrounded: 1
+  _SpriteReference: {fileID: 1854791466845331842}
+  _rb: {fileID: 4416818171692846788}
 --- !u!1 &8293116145307739870
 GameObject:
   m_ObjectHideFlags: 0

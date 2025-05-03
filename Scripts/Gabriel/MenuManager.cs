@@ -81,8 +81,8 @@ public class MenuManager : MonoBehaviour
     public void rf_OpenLevel(string levelID)
     {
         string _levelName = "Level_" + levelID;
-        print(_levelName);
-        SceneManager.LoadScene(_levelName);
+
+        SceneController.Instance.rf_LoadScene(_levelName);
     }
 
     private void rf_LevelButtonsToArray()
