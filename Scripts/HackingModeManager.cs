@@ -49,19 +49,6 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
         }
     }
 
-    private Vector3 rv3_GetWorldPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            return hit.point;
-        }
-
-        return Vector3.zero; // Return zero if no hit
-    }
-
     public void rf_SpawnRipple(Transform Position)
     {
         ParticleSystem instantiatedParticleSystem = Instantiate(_particleSystem, Position.position, Position.rotation);
@@ -72,36 +59,5 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
 
         _particleSystem.Play();
     }
-
-
-
-    #region Click Logic
-
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    print("Event PointerDown triggered");
-    //    if (!IsHackingModeActive) { return; }
-
-    //    print("Is on Hack Mode");
-    //    // Check if clicked object has the component
-    //    GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
-
-    //    if (clickedObject == null) { return; }
-        
-    //    print(clickedObject.name);
-
-    //    HackableObject hackable = clickedObject.GetComponent<HackableObject>();
-
-    //    if (hackable != null)
-    //    {
-    //        Debug.Log("Hackable object clicked!");
-    //        hackable.rf_ObjectHacked();
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("Clicked object is not hackable.");
-    //    }
-    //}
-    #endregion
 }
 

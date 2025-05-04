@@ -1,4 +1,5 @@
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
@@ -11,8 +12,10 @@ public class Laser : MonoBehaviour
 
     [Header("Settings Variables")]
     [SerializeField] private bool IsPlayerLaser = false;
-    [SerializeField] private bool IsTurnedOn = true;
-    [SerializeField] private float _LaserRange = 8f;
+    [SerializeField] public bool IsTurnedOn = true;
+    [SerializeField] public float _LaserRange = 8f;
+    public Vector3 LaserStart { get; private set; }
+    public Vector3 LaserEnd { get; private set; }
 
 
     private void Start()
@@ -27,22 +30,15 @@ public class Laser : MonoBehaviour
     {
         if (IsPlayerLaser && HackingModeManager.Instance.IsHackingModeActive)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                rf_EnableLaser();
-            }
-
-            if (Input.GetKey(KeyCode.Q))
-            {
-                rf_UpdateLaser();
-            }
+            //if (Input.GetKeyDown(KeyCode.Q)) { rf_EnableLaser(); }
+            //if (Input.GetKey(KeyCode.Q)) { rf_UpdateLaser(); }
+            if (Input.GetMouseButtonDown(0)) { rf_EnableLaser(); }
+            if (Input.GetMouseButton(0)) { rf_UpdateLaser(); }
         }
         if (IsPlayerLaser)
         {
-            if (Input.GetKeyUp(KeyCode.Q))
-            {
-                rf_DisableLaser();
-            }
+            //if (Input.GetKeyUp(KeyCode.Q)) { rf_DisableLaser(); }
+            if (Input.GetMouseButtonUp(0)) { rf_DisableLaser(); }
         }
     }
 
@@ -75,6 +71,9 @@ public class Laser : MonoBehaviour
             mouseWorldPos = _firePoint.position + (Vector3)(direction * distance);
         }
 
+        LaserStart = _firePoint.position;
+        LaserEnd = mouseWorldPos;
+
         // Raycast to detect collision and stop laser 
         RaycastHit2D hit = Physics2D.Raycast(_firePoint.position, direction, distance, moveStats.GroundLayer);
 
@@ -83,17 +82,6 @@ public class Laser : MonoBehaviour
         { 
             _lineRenderer.SetPosition(1, mouseWorldPos); 
         }
-
-
-        // debug
-        print("FirePoint" + _firePoint.position);
-        print("MousePos" + mouseScreenPos);
-
-        // stops laser in case it collides with scenery
-        //Vector2 direction = mousePos - (Vector2)transform.position;
-        //RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction.normalized, direction.magnitude);
-
-        //if (hit) { _lineRenderer.SetPosition(1, hit.point); }
     }
 
     // turns off line renderer
