@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 21fa4e8c7ad92e24ebc07b2be50a7d72
+guid: 3a4e426445dfac04fb299949197726a2
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -71,7 +71,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 0
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -84,7 +84,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   asepriteImporterSettings:
-    fileImportMode: 0
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -97,7 +97,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638819132831065748
+  platformSettingsDirtyTick: 0
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -122,9 +122,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: seta cima
+  - name: Ship_v1
     originalName: 
-    pivot: {x: 0.49642488, y: 0}
+    pivot: {x: 0.5, y: -0.22990127}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -132,9 +132,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 979
-      height: 1000
-    spriteID: 5197ca53a08f2164da6a016215e99775
+      width: 998
+      height: 709
+    spriteID: e2f6cf42aea373d43a6a83f4c6d79757
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -146,21 +146,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1725753553
-    name: seta cima
+    guid: -759518520
+    name: Ship_v1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: seta cima
+    - name: Ship_v1
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 14
-        y: 0
-        width: 979
-        height: 1000
-      spriteId: 5197ca53a08f2164da6a016215e99775
+        x: 1
+        y: 163
+        width: 998
+        height: 709
+      spriteId: e2f6cf42aea373d43a6a83f4c6d79757
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -171,30 +171,6 @@ ScriptedImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
     compressionQuality: 50
     forceMaximumCompressionQuality_BC6H_BC7: 0
     crunchedCompression: 0

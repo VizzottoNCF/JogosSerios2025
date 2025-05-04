@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishPoint : MonoBehaviour
 {
@@ -61,10 +62,16 @@ public class FinishPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // TODO: add heck if all objectives are complete
         if (collision.CompareTag("Player") && _canFinish)
         {
+            // calls to unlock level in menu
+            rf_UnlockNewLevel();
+
             // TODO: display finish level UI
+            //pseudo-code
+            //_FinishUI.SetActive(true);
+            //
+            GameController.Instance.CanPlayerMove = false;
 
 
             // TEMP
@@ -75,6 +82,16 @@ public class FinishPoint : MonoBehaviour
     public void rf_GoToNextLevel()
     {
         SceneController.Instance.rf_NextLevel();
+    }
+
+    private void rf_UnlockNewLevel()
+    {
+        if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
+        {
+            PlayerPrefs.SetInt("ReachedIndex", SceneManager.GetActiveScene().buildIndex + 1);
+            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+            PlayerPrefs.Save();
+        }
     }
 }
 

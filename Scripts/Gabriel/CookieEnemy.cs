@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class CookieEnemy : MonoBehaviour
 {
@@ -6,16 +7,30 @@ public class CookieEnemy : MonoBehaviour
     [SerializeField] private float _timer = 0f;
     [SerializeField] private float _timeToDie = 0.85f;
     [SerializeField] private Laser _PlayerLaser;
+    private MaterialPropertyBlock _MaterialPropertyBlock;
+    private Renderer _SpriteRenderer;
+    private float _dissolveAmount = 0f;
+    private const float COMPLETE_DISSOLVE_AMOUNT = 1.1f;
     public float speed = 2f;
     public float floatHeight = 1f;
     public float floatSpeed = 2f;
     public LayerMask GroundLayer;
     private int direction = 1;
     private float startY;
+    private bool _isFacingRight = true;
 
     private void Start()
     {
+        _SpriteRenderer = GetComponentInChildren<Renderer>();
+        _MaterialPropertyBlock = new MaterialPropertyBlock();
+
+
+
+
         startY = transform.position.y;
+
+        // 50/50 chance they go left or right
+        if (Random.Range(0, 2) == 0) { Flip(); }
 
         //complete scuff, may need further fixes
         //TODO: make less scuff
@@ -50,6 +65,13 @@ public class CookieEnemy : MonoBehaviour
             {
                 _timer += Time.deltaTime;
 
+                // shader effect
+                _dissolveAmount = (_timer / _timeToDie) * COMPLETE_DISSOLVE_AMOUNT;
+                _SpriteRenderer.GetPropertyBlock(_MaterialPropertyBlock);
+                _MaterialPropertyBlock.SetFloat("_DissolveAmount", _dissolveAmount);
+                _SpriteRenderer.SetPropertyBlock(_MaterialPropertyBlock);
+
+
                 if (_timer >= _timeToDie)
                 {
                     rf_UpdateCookiesLeft();
@@ -76,7 +98,23 @@ public class CookieEnemy : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
     }
-
+    private void rf_Turn(bool turnRight)
+    {
+        if (turnRight)
+        {
+            // flips player to the right side
+            _isFacingRight = true;
+            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+        }
+        else
+        {
+            // flips player to the left side
+            _isFacingRight = false;
+            Vector3 rotator = new Vector3(transform.rotation.x, -180f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+        }
+    }
 
     /// <summary>
     ///  Call when cookie is destroyed/deactivated

@@ -11,12 +11,12 @@ public class HackableObject : MonoBehaviour
     [SerializeField] private Vector3 _ActiveCoord;
     [SerializeField] private Vector3 _InactiveCoord;
     [SerializeField] private float _tweenDuration = 1f;
-    [SerializeField] private float _TimeToHack = 0.5f;
     [SerializeField] private Laser _PlayerLaser;
-    private float _hackTimer = 0f;
-    private float _hackCooldown = 1.0f;
-    private bool _onCooldown = false;
-    private float _cooldownTimer = 0f;
+    //[SerializeField] private float _TimeToHack = 0.5f;
+    //private float _hackTimer = 0f;
+    //private float _hackCooldown = 1.0f;
+    //private bool _onCooldown = false;
+    //private float _cooldownTimer = 0f;
 
 
     [Header("Situational")]

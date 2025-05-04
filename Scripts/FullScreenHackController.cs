@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
+using static Unity.Collections.AllocatorManager;
 
 public class FullScreenHackController : MonoBehaviour
 {
     public static FullScreenHackController instance;
 
     [Header("Time Stats")]
-    [SerializeField] private float _hackDisplayTime = 1.5f;
     [SerializeField] private float _hackFadeOutTime = 0.5f;
+    //[SerializeField] private float _hackDisplayTime = 1.5f;
 
     [Header("References")]
     [SerializeField] private ScriptableRendererFeature _fullScreenHack;
@@ -96,4 +97,20 @@ public class FullScreenHackController : MonoBehaviour
         _material.SetFloat(_vignetteIntensity, 0f);
         _fullScreenHack.SetActive(false);
     }
+
+    // IF UNITY EDITOR CLOSES, RESET SHADER PARAMETERS (SO IT DOESNT LAG EDITOR).
+    //_material.SetFloat(_voronoiIntensity, 0);
+    //_material.SetFloat(_vignetteIntensity, 0);
+#if UNITY_EDITOR
+    private void OnDisable()
+    {
+        ResetShaderProperties();
+    }
+
+    private void ResetShaderProperties()
+    {
+        _material.SetFloat(_voronoiIntensity, 0);
+        _material.SetFloat(_vignetteIntensity, 0);
+    }
+#endif
 }
