@@ -13,6 +13,7 @@ public class FinishPoint : MonoBehaviour
     [SerializeField] private TMP_Text _AllDone;
     [SerializeField] private GameObject _SystemShiftImageOn;
     [SerializeField] private GameObject _SystemShiftImageOff;
+    [SerializeField] private GameObject _FinishUI;
     public LevelObjectives LevelObjectives;
 
     //[SerializeField] private GameObject _UI_Canvas;
@@ -22,6 +23,9 @@ public class FinishPoint : MonoBehaviour
     {
         // disables all objective complete text (will be reenabled in update)
         _AllDone.gameObject.SetActive(false);
+
+        // disables finish level UI
+        _FinishUI.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -67,17 +71,19 @@ public class FinishPoint : MonoBehaviour
             // calls to unlock level in menu
             rf_UnlockNewLevel();
 
-            // TODO: display finish level UI
-            //pseudo-code
-            //_FinishUI.SetActive(true);
-            //
+            // enables and displays finish level UI
+            _FinishUI.SetActive(true);
+            
             GameController.Instance.CanPlayerMove = false;
-
-
-            // TEMP
-            rf_GoToNextLevel();
         }
     }
+
+    public void rf_GoToMenu()
+    {
+        SceneManager.LoadScene("MAIN_MENU");
+    }
+
+
 
     public void rf_GoToNextLevel()
     {

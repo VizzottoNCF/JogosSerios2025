@@ -9,6 +9,7 @@ public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
 {
     public static HackingModeManager Instance;
     public bool IsHackingModeActive;
+    public float _Range = 8f;
     [SerializeField] private ParticleSystem _particleSystem;
 
     private void Awake()

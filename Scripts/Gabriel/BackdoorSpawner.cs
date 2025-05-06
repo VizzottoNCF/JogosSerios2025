@@ -1,41 +1,79 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BackdoorSpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;   // Prefab do inimigo a ser spawnado
-    public float spawnInterval = 3f;   // Intervalo entre os spawns
-    public int maxSpawn = 5;           // Limite máximo de inimigos simultâneos
-    public int health = 150;           // Vida do spawner (maior que a dos inimigos)
+    [SerializeField] private GameObject enemyPrefab;   // Prefab do inimigo a ser spawnado
+    [SerializeField] private float spawnInterval = 3f;   // Intervalo entre os spawns
+    [SerializeField] private int maxSpawn = 5;           // Limite máximo de inimigos simultâneos
+    [SerializeField] private int health = 150;           // Vida do spawner (maior que a dos inimigos)
 
-    private int currentSpawn = 0;
+    [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
+
+    [SerializeField] private bool _IsDoorOpen = true;
+    [SerializeField] private bool  _HasUpdated = false;
+
     private float timer = 0f;
 
-    void Update()
+    
+
+    private void Update()
     {
-        // Se ainda não atingiu o limite, tenta spawnar inimigos
-        if (currentSpawn < maxSpawn)
+
+        // if door is open, spawns enemies
+        if (_IsDoorOpen)
         {
-            timer += Time.deltaTime;
-            if (timer >= spawnInterval)
+            // Se ainda não atingiu o limite, tenta spawnar inimigos
+            if (enemyList.Count < maxSpawn)
             {
-                SpawnEnemy();
-                timer = 0f;
+                timer += Time.deltaTime;
+                if (timer >= spawnInterval)
+                {
+                    SpawnEnemy();
+                    timer = 0f;
+                }
             }
         }
+        
+        // in case there are still enemies
+        if (!_IsDoorOpen && !_HasUpdated)
+        {
+            rf_UpdateBackdoorsLeft();
+        }
+
     }
 
-    void SpawnEnemy()
+    private void SpawnEnemy()
     {
         // Ajuste a posição do spawn se necessário (aqui é posicionado próximo ao spawner)
         Vector3 spawnPos = transform.position + new Vector3(1f, 0, 0);
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-        currentSpawn++;
+
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        enemyList.Add(newEnemy);
     }
 
-    // Método que pode ser chamado pelos inimigos ao morrer para diminuir a contagem atual
-    public void OnEnemyDeath()
+    private void rf_UpdateBackdoorsLeft()
     {
-        currentSpawn--;
+        if (!_IsDoorOpen && enemyList.Count == 0 && !_HasUpdated)
+        {
+            _HasUpdated = true;
+
+            // gets finish point script and reduces the amount of backdoors left to be closed
+            FinishPoint finishPoint = GameObject.FindWithTag("Finish").GetComponent<FinishPoint>();
+
+            // decreases backdoors left by 1
+            finishPoint.LevelObjectives.BackdoorLeft--;
+        }
+    }
+
+    public void rf_CloseBackdoor()
+    {
+        if (_IsDoorOpen) { _IsDoorOpen = false; rf_UpdateBackdoorsLeft(); }
+
+        //TODO:
+        // when sprite exists, place animator parameter here 
+        
     }
 }
 

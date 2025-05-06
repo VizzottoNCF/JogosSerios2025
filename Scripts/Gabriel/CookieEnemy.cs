@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using static Unity.Collections.AllocatorManager;
 
 public class CookieEnemy : MonoBehaviour
@@ -7,6 +8,8 @@ public class CookieEnemy : MonoBehaviour
     [SerializeField] private float _timer = 0f;
     [SerializeField] private float _timeToDie = 0.85f;
     [SerializeField] private Laser _PlayerLaser;
+    [SerializeField] private GameObject _healthCanvas;
+    [SerializeField] private Slider _hackSlider;
     private MaterialPropertyBlock _MaterialPropertyBlock;
     private Renderer _SpriteRenderer;
     private float _dissolveAmount = 0f;
@@ -21,11 +24,8 @@ public class CookieEnemy : MonoBehaviour
 
     private void Start()
     {
-        _SpriteRenderer = GetComponentInChildren<Renderer>();
-        _MaterialPropertyBlock = new MaterialPropertyBlock();
-
-
-
+        //_hackSlider = GetComponentInChildren<Slider>();
+        
 
         startY = transform.position.y;
 
@@ -52,9 +52,12 @@ public class CookieEnemy : MonoBehaviour
             Flip();
         }
 
+
         // death logic
-        if (_PlayerLaser.IsTurnedOn)
+        if (_PlayerLaser.IsTurnedOn && HackingModeManager.Instance.IsHackingModeActive)
         {
+            _healthCanvas.SetActive(true);
+
             Vector2 laserStart = _PlayerLaser.LaserStart;
             Vector2 laserEnd = _PlayerLaser.LaserEnd;
 
@@ -65,13 +68,9 @@ public class CookieEnemy : MonoBehaviour
             {
                 _timer += Time.deltaTime;
 
-                // shader effect
-                _dissolveAmount = (_timer / _timeToDie) * COMPLETE_DISSOLVE_AMOUNT;
-                _SpriteRenderer.GetPropertyBlock(_MaterialPropertyBlock);
-                _MaterialPropertyBlock.SetFloat("_DissolveAmount", _dissolveAmount);
-                _SpriteRenderer.SetPropertyBlock(_MaterialPropertyBlock);
-
-
+                // wheel effect
+                _dissolveAmount = _timer / _timeToDie;
+                _hackSlider.value = _dissolveAmount;
                 if (_timer >= _timeToDie)
                 {
                     rf_UpdateCookiesLeft();
@@ -85,6 +84,7 @@ public class CookieEnemy : MonoBehaviour
         }
         else
         {
+            _healthCanvas.SetActive(false);
             _timer = 0f;
         }
 
@@ -97,23 +97,6 @@ public class CookieEnemy : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
-    }
-    private void rf_Turn(bool turnRight)
-    {
-        if (turnRight)
-        {
-            // flips player to the right side
-            _isFacingRight = true;
-            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-        }
-        else
-        {
-            // flips player to the left side
-            _isFacingRight = false;
-            Vector3 rotator = new Vector3(transform.rotation.x, -180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-        }
     }
 
     /// <summary>
