@@ -84,6 +84,10 @@ public class DialogManager : MonoBehaviour
                 else { rf_NextLine(_speaker, _portrait); }
             }
         }
+        if (_IsDialogHappening && Input.GetKeyDown(KeyCode.P))
+        {
+            _IsDialogHappening = false;
+        }
     }
     /// <summary>
     ///  Starts a dialog canvas
