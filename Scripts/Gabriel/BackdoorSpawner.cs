@@ -3,18 +3,23 @@ using UnityEngine;
 
 public class BackdoorSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;   // Prefab do inimigo a ser spawnado
-    [SerializeField] private float spawnInterval = 3f;   // Intervalo entre os spawns
-    [SerializeField] private int maxSpawn = 5;           // Limite máximo de inimigos simultâneos
-    [SerializeField] private int health = 150;           // Vida do spawner (maior que a dos inimigos)
+    [Header("References")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private GameObject _buttonFace;
+    [SerializeField] private Material _greenMat;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private float spawnInterval = 4f;
+    [SerializeField] private int maxSpawn = 5;
 
     [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
 
     [SerializeField] private bool _IsDoorOpen = true;
     [SerializeField] private bool  _HasUpdated = false;
 
-    private float timer = 0f;
 
+
+    private float timer = 0f;
+    
     
 
     private void Update()
@@ -41,6 +46,10 @@ public class BackdoorSpawner : MonoBehaviour
             rf_UpdateBackdoorsLeft();
         }
 
+
+        // Clean up destroyed enemies from the list
+        enemyList.RemoveAll(enemy => enemy == null);
+
     }
 
     private void SpawnEnemy()
@@ -64,16 +73,21 @@ public class BackdoorSpawner : MonoBehaviour
 
             // decreases backdoors left by 1
             finishPoint.LevelObjectives.BackdoorLeft--;
+
+            // Try to get the Key component and call the function if it exists
+            if (TryGetComponent<Key>(out Key goKey)) { goKey.rf_CompleteKey(); }
         }
     }
 
     public void rf_CloseBackdoor()
     {
         if (_IsDoorOpen) { _IsDoorOpen = false; rf_UpdateBackdoorsLeft(); }
-
-        //TODO:
-        // when sprite exists, place animator parameter here 
         
+        // plays close door animation
+        _animator.SetBool("Close", true);
+
+        // turns buton face green
+        _buttonFace.GetComponent<MeshRenderer>().material = _greenMat;
     }
 }
 

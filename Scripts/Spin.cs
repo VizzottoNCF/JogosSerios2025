@@ -3,9 +3,10 @@ using UnityEngine;
 public class spin : MonoBehaviour
 {
     [Header("Spin Type:")]
-    [SerializeField] public bool FloatSpin;
-    [SerializeField] public bool GyroSpin;
-    [SerializeField][Range(-1,1)] public int GyroSpinDirection;
+    [SerializeField] private bool FloatSpin;
+    [SerializeField] private bool GyroSpin;
+    [SerializeField] private bool LateralSpin;
+    [SerializeField][Range(-1,1)] public int SpinDirection;
     private Quaternion _quat;
     private Vector3 _initialPos;
     private float _timer = 0f;
@@ -13,13 +14,13 @@ public class spin : MonoBehaviour
     {
         _quat = transform.rotation;
         _initialPos = transform.position;
-        if (GyroSpinDirection == 0) { GyroSpinDirection = 1; } // defaults to spin left
+        if (SpinDirection == 0) { SpinDirection = 1; } // defaults to spin left
     }
     private void Update()
     {
         if (GyroSpin)
         {
-            _quat *= Quaternion.Euler(0, GyroSpinDirection, GyroSpinDirection);
+            _quat *= Quaternion.Euler(0, SpinDirection, SpinDirection);
         }
 
         if (FloatSpin)
@@ -28,6 +29,11 @@ public class spin : MonoBehaviour
 
             float offsetY = Mathf.Sin(_timer * Mathf.PI * 2) * 0.5f;
             transform.position = new Vector3(_initialPos.x, _initialPos.y + offsetY, _initialPos.z);
+        }
+
+        if (LateralSpin)
+        {
+            _quat *= Quaternion.Euler(0, 0, SpinDirection);
         }
 
         // makes current quaternion into rotation

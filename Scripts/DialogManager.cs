@@ -57,7 +57,7 @@ public class DialogManager : MonoBehaviour
 
         _skipTimer += Time.deltaTime;
         /// ------------------ TEXT BOX
-        if (InputManager.DialogSkipPressed && _IsDialogHappening && _skipTimer >= 0.25f)
+        if (InputManager.DialogSkipPressed && _IsDialogHappening && _skipTimer >= 0.1f)
         {
             _skipTimer = 0f;
             // if text is not finished, jumps to finished state

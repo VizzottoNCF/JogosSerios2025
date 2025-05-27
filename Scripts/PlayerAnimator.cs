@@ -26,7 +26,8 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool("IsStill", HackingModeManager.Instance.IsHackingModeActive  || (_horizontalMoveInput == 0 && GameController.Instance.IsPlayerGrounded));
 
 
-        // Jumping state
-        animator.SetBool("IsFalling", rb.linearVelocity.y < -0.1f);
+        // is Grounded
+        animator.SetBool("IsGrounded", transform.parent.gameObject.GetComponent<PlayerMovement>().rf_PlayerGrounded()); // rf_PlayerGround returns _isGrounded value
+        print(transform.parent.gameObject.GetComponent<PlayerMovement>().rf_PlayerGrounded());
     }
 }

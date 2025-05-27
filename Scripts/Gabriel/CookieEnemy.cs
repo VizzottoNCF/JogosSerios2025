@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 using static Unity.Collections.AllocatorManager;
@@ -10,8 +11,6 @@ public class CookieEnemy : MonoBehaviour
     [SerializeField] private Laser _PlayerLaser;
     [SerializeField] private GameObject _healthCanvas;
     [SerializeField] private Slider _hackSlider;
-    private MaterialPropertyBlock _MaterialPropertyBlock;
-    private Renderer _SpriteRenderer;
     private float _dissolveAmount = 0f;
     private const float COMPLETE_DISSOLVE_AMOUNT = 1.1f;
     public float speed = 2f;
@@ -20,12 +19,11 @@ public class CookieEnemy : MonoBehaviour
     public LayerMask GroundLayer;
     private int direction = 1;
     private float startY;
-    private bool _isFacingRight = true;
 
     private void Start()
     {
         //_hackSlider = GetComponentInChildren<Slider>();
-        
+
 
         startY = transform.position.y;
 
@@ -87,8 +85,6 @@ public class CookieEnemy : MonoBehaviour
             _healthCanvas.SetActive(false);
             _timer = 0f;
         }
-
-
     }
 
     private void Flip()
@@ -109,6 +105,9 @@ public class CookieEnemy : MonoBehaviour
 
         // decreases cookies left by 1
         finishPoint.LevelObjectives.CookiesLeft--;
+
+        // Try to get the Key component and call the function if it exists
+        if (TryGetComponent<Key>(out Key goKey)) { goKey.rf_CompleteKey(); }
     }
 
 }

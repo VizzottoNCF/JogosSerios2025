@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private float _downHeldTimer = 0f;
 
     #endregion
+
     private void Start()
     {
         _isFacingRight = true;
@@ -284,6 +285,7 @@ public class PlayerMovement : MonoBehaviour
             _isJumping = true;
         }
 
+        AudioManager.Instance.rf_PlaySFX("Jump");
         _jumpBufferTimer = 0f;
         _numberOfJumpsUsed += numberOfJumpsUsed;
         VerticalVelocity = moveStats.InitialJumpVelocity;
@@ -435,6 +437,8 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    public bool rf_PlayerGrounded() { return _isGrounded; }
+
     private void rf_BumpedHead()
     {
         // Makes a 80% head-width hitbox to detect head collisions
@@ -579,10 +583,10 @@ public class PlayerMovement : MonoBehaviour
 
 
                     // Reset vertical velocity and set grounded state
-                    //VerticalVelocity = 0f;
-                    //_isGrounded = true;
-                    //_isJumping = false;
-                    //_isFalling = false;
+                    VerticalVelocity = 0f;
+                    _isGrounded = true;
+                    _isJumping = false;
+                    _isFalling = false;
                 }
             }
         }
