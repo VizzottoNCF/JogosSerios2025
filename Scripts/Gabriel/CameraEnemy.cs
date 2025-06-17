@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraEnemy : MonoBehaviour
 {
@@ -10,13 +13,47 @@ public class CameraEnemy : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _dropdown;
     [SerializeField] private TMP_Dropdown _privacy;
-    private bool _cameraDestroyed = false;
+    [SerializeField] private bool _cameraDestroyed = false;
     private bool _hasUpdated = false;
     public LayerMask GroundLayer;
 
+    [Header("UI QUESTION STUFF")]
+    [SerializeField] private List<Button> _selectableButtons = new List<Button>();
+    [SerializeField] private string[] _optionText;
+    [SerializeField] private List<GameObject> _originalButtons = new List<GameObject>();
+    [SerializeField] private bool _buttonsVisible = false;
 
     private void Start()
     {
+        // FOR LOOP WITH THE BUTTONS TO ASSIGN TEXT AND WHICH ONE IS CORRECT
+        for (int i = 0; _selectableButtons.Count > 0; i++)
+        {
+            // RANDOMIZE _selectableButtons list, so that answers arer always on different places
+            _selectableButtons = _selectableButtons.Randomize().ToList();
+
+            // ASSIGN FUNCTION AND THEN TEXT
+            // _selectableButtons[] is always index [0] because first of the array is always popped, thus making index [1] the new index [0]
+
+            if (i == 0)
+            {
+                // _optionText[i = 0] IS ALWAYS THE CORRECT OPTION TO PICK
+                _selectableButtons[0].gameObject.GetComponentInChildren<TMP_Text>().text = _optionText[i];
+                _selectableButtons[0].onClick.AddListener(rf_DestroyCamera);
+
+            }
+            else
+            {
+                _selectableButtons[0].gameObject.GetComponentInChildren<TMP_Text>().text = _optionText[i];
+                _selectableButtons[0].onClick.AddListener(rf_WrongChoice);
+            }
+
+            // remove button that was already assigned and resume for loop
+            _selectableButtons.RemoveAt(0);
+        }
+
+
+
+
         // gets dropdown option
         //_privacy = _dropdown.gameObject.GetComponent<Dropdown>();
 
@@ -25,10 +62,23 @@ public class CameraEnemy : MonoBehaviour
         _PlayerLaser = FindFirstObjectByType<Laser>(); // currently works as it is the sole laser in the scene, as soon as another is made, this is doomed
     }
 
-    private void OnMouseDown()
+    private void rf_WrongChoice()
+    {
+        AudioManager.Instance.rf_PlaySFX("WrongChoice");
+    }
+    private void rf_DestroyCamera()
     {
         if (!_cameraDestroyed)
         {
+
+            // disables UI buttons for quiz
+            for (int i = 0; i < _originalButtons.Count; i++)
+            {
+                _originalButtons[i].gameObject.SetActive(false);
+            }
+
+
+            AudioManager.Instance.rf_PlaySFX("CorrectChoice");
             // destroy camera and enable drop down
             Destroy(_camera);
             _dropdown.SetActive(true);

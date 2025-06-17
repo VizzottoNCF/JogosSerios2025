@@ -2749,7 +2749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 508dacebac388444096f405a570e7636, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 508dacebac388444096f405a570e7636, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2805,6 +2805,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5333319743424446697, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.008358002
+      objectReference: {fileID: 0}
     - target: {fileID: 6508033766392732343, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.042545
@@ -2843,6 +2847,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6508033766392732343, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2890,7 +2906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 508dacebac388444096f405a570e7636, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 508dacebac388444096f405a570e7636, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3722,15 +3738,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2067655055760502042, guid: 0a376e9cf1d8bd549b82b7c7ade9eaaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.036
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 0a376e9cf1d8bd549b82b7c7ade9eaaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 0a376e9cf1d8bd549b82b7c7ade9eaaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 2067655055760502042, guid: 0a376e9cf1d8bd549b82b7c7ade9eaaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6043,6 +6059,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5333319743424446697, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.004802704
+      objectReference: {fileID: 0}
     - target: {fileID: 6508033766392732343, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.87278557
@@ -6081,6 +6101,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6508033766392732343, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903554423266060516, guid: e30001786a41f354f8d656a6f0a46323, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

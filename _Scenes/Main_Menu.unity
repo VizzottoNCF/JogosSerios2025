@@ -1544,6 +1544,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 384c5d086edf90349a3f88d934114ede, type: 3}
   - soundName: Key
     clip: {fileID: 8300000, guid: 78bb2c34307929b4697db58c0382b5ca, type: 3}
+  - soundName: CorrectChoice
+    clip: {fileID: 8300000, guid: 13fbffbd4867d6a419746c88905a16c0, type: 3}
+  - soundName: WrongChoice
+    clip: {fileID: 8300000, guid: d79bd23b90f2da7458875048c045bbe5, type: 3}
   musicSource: {fileID: 952235499}
   sfxSource: {fileID: 76993642}
 --- !u!4 &656617448

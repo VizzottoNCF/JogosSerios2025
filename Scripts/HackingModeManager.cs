@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class HackingModeManager : MonoBehaviour//, IPointerDownHandler
 {
     public static HackingModeManager Instance;
-    public bool IsHackingModeActive;
+    public bool IsHackingModeActive { get; private set; }
     public float _Range = 8f;
     [SerializeField] private ParticleSystem _particleSystem;
 
